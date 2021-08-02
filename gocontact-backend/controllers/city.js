@@ -9,12 +9,12 @@ module.exports = {
     async addCity(req,res){
         try{
             if(!req.body.city){
-                return res.status(500).send("Cidade necessária.");
+                return res.status(409).json({message:"Cidade necessária."});
             }
             
             let duplicated = cities.filter(city => city.name === req.body.city);
             if(duplicated.length !== 0){
-                return res.status(500).send("Cidade já guardada.");
+                return res.status(409).json({message:"Cidade já guardada."});
             }
 
 
@@ -23,12 +23,12 @@ module.exports = {
                 if(data){
                     cities.push(data);
                 }
-                return res.status(200).send("Cidade adicionada.");
+                return res.status(200).json({message:"Cidade adicionada."});
             }catch(err){
                 if(err === 404){
-                    return res.status(404).send("Cidade não encontrada.");
+                    return res.status(404).json({message:"Cidade não encontrada."});
                 }else{
-                    return res.status(500).send("Erro.");
+                    return res.status(500).json({message:"Erro."});
                 }
             }
             
