@@ -1,16 +1,87 @@
+const axios = require('axios');
+const {weatherApiKey} = require('../config/keys');
+
 
 var cities = [];
+const expirationTime = 5 * 60;
+const lang = "pt";
 module.exports = {
-    addCity(req,res){
+    async addCity(req,res){
         try{
-            cities.push(req.body.city);
-            res.status(200).send("Cidade adicionada");
+            if(!req.body.city){
+                return res.status(500).send("Cidade necessária.");
+            }
+            
+            let duplicated = cities.filter(city => city.name === req.body.city);
+            if(duplicated.length !== 0){
+                return res.status(500).send("Cidade já guardada.");
+            }
+
+
+            try{
+                let data = await cityRequest(req.body.city);
+                if(data){
+                    cities.push(data);
+                }
+                return res.status(200).send("Cidade adicionada.");
+            }catch(err){
+                if(err === 404){
+                    return res.status(404).send("Cidade não encontrada.");
+                }else{
+                    return res.status(500).send("Erro.");
+                }
+            }
+            
         }catch(err){
-            res.status(200).send(err);
+            return res.status(200).send(err);
         } 
     },
     
-    getCities(req,res){
-        res.status(200).json({"cities":cities});
+    async getCities(req,res){
+        let date = new Date();
+        let arrCityExpired = [];
+        let auxCities = [...cities];     
+        
+        cities.forEach((city, index) =>{
+            if(city.expirationTime < date){
+                arrCityExpired.push(city.name);
+                auxCities.splice(city,1);
+            }
+        });
+        cities = auxCities;
+
+        for(const city of arrCityExpired) {
+            try{
+                let data = await cityRequest(city);
+                if(data){
+                    cities.push(data);
+                }
+            }catch(err){
+                console.log(err);
+            }
+            
+        }
+
+        return res.status(200).json({"cities":cities});
     }
+}
+
+
+async function cityRequest(city){
+    return new Promise((resolve, reject) => {
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${weatherApiKey}&lang=${lang}`)
+        .then(response => {
+            let date = new Date();
+            date.setSeconds( date.getSeconds() + expirationTime );
+            response.data.expirationTime = date;
+            resolve(response.data);
+        })
+        .catch(error => {
+            if(error.response.status === 404){
+                reject(404); 
+            }else{
+                reject(null);
+            }          
+        });
+    });
 }
