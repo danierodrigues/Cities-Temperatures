@@ -69,7 +69,7 @@ module.exports = {
 
 async function cityRequest(city){
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${weatherApiKey}&lang=${lang}`)
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${weatherApiKey}&units=metric&lang=${lang}`)
         .then(response => {
             let date = new Date();
             date.setSeconds( date.getSeconds() + expirationTime );

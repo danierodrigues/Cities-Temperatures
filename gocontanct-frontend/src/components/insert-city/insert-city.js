@@ -43,14 +43,14 @@ function InsertCity() {
         }
         saveCity(body).then(response =>{
             setMessage(response.data.message, 'success');
-
+            setFieldCity('');
         }).catch(error =>{
             setMessage(error.response.data.message || 'Erro.', 'error');
         })
     }
 
     return (
-        <div className='' >
+        <div className='CityInsertPrincipalContainer' >
             {alert && <div className={"alert"}>
                 <Alert  severity={alertMode} action={
             <IconButton
@@ -60,7 +60,7 @@ function InsertCity() {
               onClick={() => {
                 setalert(false);
               }}
-            ><CloseIcon fontSize="inherit" /></IconButton>} >{alertMessage}</Alert>
+            ><CloseIcon fontSize="inherit" /></IconButton> } >{alertMessage}</Alert>
             </div>}
             <div className="cityInsertContainer">
                 <TextField  label="Insira cidade" onChange={e => handleInputChange(e, 'city')}></TextField>

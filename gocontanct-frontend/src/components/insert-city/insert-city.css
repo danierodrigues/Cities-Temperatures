@@ -43,8 +43,8 @@
 
 
 .alert{
-    margin-top: 20px;
-    position: absolute;
+    margin-bottom: 50px;
+    position: absolute; 
     margin-left: auto;
     margin-right: auto;
     z-index: 3;
@@ -53,7 +53,7 @@
 }
 
 .cityInsertContainer{
-    top: 100px;
+    margin-top: 100px;
     position: relative;
     display: flex;
     align-items: center;
@@ -64,3 +64,9 @@
 .ButtonContainer{
     margin-top: 20px;
 }
+
+.CityInsertPrincipalContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+} 
