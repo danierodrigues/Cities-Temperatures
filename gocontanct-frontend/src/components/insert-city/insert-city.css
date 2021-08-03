@@ -70,3 +70,11 @@
     justify-content: center;
     flex-direction: column;
 } 
+
+.submitButtonBlocked{
+    background-color: gray !important;
+    cursor: not-allowed !important;
+}
+
+.submitButton{
+}
