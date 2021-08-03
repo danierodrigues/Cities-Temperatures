@@ -8,11 +8,13 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 
-function InsertCity() {
+function InsertCity({requestCities:requestCities}) {
     const [fieldCity, setFieldCity] = useState();
     const [alertMessage, setalertMessage] = useState('');
     const [alertMode, setalertMode] = useState('');
     const [alert, setalert] = useState(false);
+    const [buttonBlocked, setButtonBlocked] = useState(false);
+
 
     const handleInputChange = (e, inputName) => {
         switch(inputName) {
@@ -34,8 +36,12 @@ function InsertCity() {
 
     const submit = (e) =>{
         e.preventDefault();
+        setButtonBlocked(true);
+        document.getElementById("submitButtonCity").disabled = true;
         if(!fieldCity){
             setMessage('Campo obrigatório.', 'warning');
+            document.getElementById("submitButtonCity").disabled = false;
+            setButtonBlocked(false);
             return;
         }
         let body = {
@@ -44,8 +50,13 @@ function InsertCity() {
         saveCity(body).then(response =>{
             setMessage(response.data.message, 'success');
             setFieldCity('');
+            requestCities();
+            setButtonBlocked(false);
+            document.getElementById("submitButtonCity").disabled = false;
         }).catch(error =>{
-            setMessage(error.response.data.message || 'Erro.', 'error');
+            setMessage('Erro.', 'error');
+            setButtonBlocked(false);
+            document.getElementById("submitButtonCity").disabled = false;
         })
     }
 
@@ -63,9 +74,9 @@ function InsertCity() {
             ><CloseIcon fontSize="inherit" /></IconButton> } >{alertMessage}</Alert>
             </div>}
             <div className="cityInsertContainer">
-                <TextField  label="Insira cidade" onChange={e => handleInputChange(e, 'city')}></TextField>
+                <TextField value={fieldCity} label="Insira cidade" onChange={e => handleInputChange(e, 'city')}></TextField>
                 <div className="ButtonContainer">
-                    <Button className="submitButton" variant="contained" color="primary" onClick={submit}>Guardar</Button>
+                    <Button id="submitButtonCity" className={buttonBlocked ? "submitButtonBlocked" : "submitButton"} variant="contained" color="primary" onClick={submit}>Guardar</Button>
                 </div>
             </div>
         </div>
