@@ -44,7 +44,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Install
 
-    $ git clone https://github.com/danierodrigues/GoContact.git
+    $ git clone https://github.com/danierodrigues/Cities-Temperatures.git
     $ cd gocontact-backend
     $ npm ci/npm install(if you have package-lock.json run the first one, if not run the second one)
 
