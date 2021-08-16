@@ -44,7 +44,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Install
 
-    $ git clone https://github.com/danierodrigues/GoContact.git
+    $ git clone https://github.com/danierodrigues/Cities-Temperatures
 
 ## Next Steps
 
