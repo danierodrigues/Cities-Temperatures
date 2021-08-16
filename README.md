@@ -1,4 +1,4 @@
-# Go-contact
+# Temperatures City
 
 This project is a Web page and an API, what they do is to give to the user in an interactive way with graphics the possibility to consult data like temperatures, hours of sunrise and sunset of cities from his choice.
 
